@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TouchControl : MonoBehaviour {
-
-    public float zoomSpeed = 0.5f;
+    public Camera cam;
+    float zoomSpeed = 0.01f;
 
     void Update()
     {
@@ -16,14 +16,17 @@ public class TouchControl : MonoBehaviour {
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
+            Vector2 twoFingerDeltaPos = (touchOne.deltaPosition + touchZero.deltaPosition) / 2;
+
             float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            Camera.current.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
-            Camera.current.orthographicSize = Mathf.Max(Camera.current.orthographicSize, 0.1f);
+            //cam.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
+            //cam.orthographicSize = Mathf.Max(cam.orthographicSize, 0.1f);
             
+            cam.transform.position -= cam.ScreenToWorldPoint(twoFingerDeltaPos);         
         }
     }
 }
