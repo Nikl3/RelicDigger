@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TouchControl : MonoBehaviour {
 
-    public float zoomSpeed = 0.5f;
+    public float zoomSpeed = 0.1f;
 
     void Update()
     {
