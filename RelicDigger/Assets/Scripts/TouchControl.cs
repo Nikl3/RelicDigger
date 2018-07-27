@@ -3,30 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TouchControl : MonoBehaviour {
-    public Camera cam;
-    float zoomSpeed = 0.01f;
 
+    Vector3 touchStart;
+
+    public float zoomOutMin = 1;
+    public float zoomOutMax = 8;
+    
     void Update()
     {
+
         if (Input.touchCount == 2)
         {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
+            if (touchOne.phase == TouchPhase.Began) {
+                touchStart = Camera.main.ScreenToWorldPoint((Vector3)(touchZero.position + touchOne.position) / 2);
+            }
+
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
-            Vector2 twoFingerDeltaPos = (touchOne.deltaPosition + touchZero.deltaPosition) / 2;
+            float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
 
-            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            float difference = currentMagnitude - prevMagnitude;
 
-            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+            zoom(difference * 0.01f);
+             
+            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint((touchZero.position + touchOne.position)/2);
 
-            //cam.orthographicSize += deltaMagnitudeDiff * zoomSpeed;
-            //cam.orthographicSize = Mathf.Max(cam.orthographicSize, 0.1f);
-            
-            cam.transform.position -= cam.ScreenToWorldPoint(twoFingerDeltaPos);         
+            Camera.main.transform.position += direction;
         }
+
+        
+    }
+
+    void zoom(float increment)
+    {
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomOutMin, zoomOutMax);
     }
 }
