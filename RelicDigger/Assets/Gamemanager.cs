@@ -6,26 +6,33 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour {
 
-    public float score;
+    public float boneClickScore = 500f;
+    float totalScore;
 
     public TextMeshProUGUI scoreText;
     LayerMask background;
 
+    void UpdateTotalScore() {
+        scoreText.text = "Score: " + totalScore;
+    }
+
 	void Start () {
-		
+        background = LayerMask.GetMask("background");
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Mouse0)) {
+		if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount < 0) {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, background)) {
-                print("jess"); 
+                totalScore += boneClickScore;
+                UpdateTotalScore();
             }
         }
 
 
-	}
+
+    }
 }
