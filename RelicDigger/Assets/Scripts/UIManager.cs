@@ -18,6 +18,14 @@ public class UIManager : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+    public void RetryLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ToMenu() {
+        SceneManager.LoadScene(0);
+    }
+
     public void TapContinue() {
         if (Input.touchCount > 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -7,6 +7,7 @@ public class RoundTimer : MonoBehaviour {
 
     public float timer;
     TextMeshProUGUI timerText;
+    public GameObject timesupScreen;
 
 	void Start () {
         timerText = GetComponent<TextMeshProUGUI>();
@@ -18,6 +19,7 @@ public class RoundTimer : MonoBehaviour {
             timerText.text = timer.ToString("f0");
         }
         if (timer <= 0) {
+            timesupScreen.SetActive(true);
             //times up screen.set active
         }
 	}
