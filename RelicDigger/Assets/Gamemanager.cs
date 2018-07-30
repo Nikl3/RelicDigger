@@ -12,14 +12,17 @@ public class Gamemanager : MonoBehaviour {
     public TextMeshProUGUI scoreText;
     LayerMask background;
     RoundTimer rt;
+    public GameObject[] bones;
 
     void UpdateTotalScore() {
-        scoreText.text = "Score: " + totalScore;
+        scoreText.text = "score " + totalScore;
     }
 
 	void Start () {
         background = LayerMask.GetMask("background");
+        bones = GameObject.FindGameObjectsWithTag("bone");
         rt = FindObjectOfType<RoundTimer>();
+
 	}
 	
 	void Update () {
