@@ -6,15 +6,28 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour {
 
+
     public float score;
     public GameObject sandTilePrefab;
     public Vector2 tileSize;
     public int tileRows;
     public int tileColumns;
-    //public TextMeshProUGUI scoreText;
+
+    public float boneClickScore = 500f;
+    float totalScore;
+
+    public TextMeshProUGUI scoreText;
+
     LayerMask background;
+    RoundTimer rt;
+    public GameObject[] bones;
+
+    void UpdateTotalScore() {
+        scoreText.text = "score " + totalScore;
+    }
 
 	void Start () {
+
        
         float firstX = (tileColumns / -2f + 0.5f) * tileSize.x;
         float firstY = (tileRows / -2f + 0.5f) * tileSize.y;
@@ -26,19 +39,28 @@ public class Gamemanager : MonoBehaviour {
                 sandTile.transform.position = newPos;
             }
         }
+
+        background = LayerMask.GetMask("background");
+        bones = GameObject.FindGameObjectsWithTag("bone");
+        rt = FindObjectOfType<RoundTimer>();
+
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Mouse0)) {
+		if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount > 0) {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, background)) {
-                print("jess"); 
-            }
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, background)) {
+                if (rt.timer > 0) {
+                    totalScore += boneClickScore;
+                    UpdateTotalScore();
+                    Destroy(hit.collider.gameObject);
+                }
+                }
         }
 
 
-	}
+
+    }
 }

@@ -7,6 +7,7 @@ public class RoundTimer : MonoBehaviour {
 
     public float timer;
     TextMeshProUGUI timerText;
+    public GameObject timesupScreen;
 
 	void Start () {
         timerText = GetComponent<TextMeshProUGUI>();
@@ -15,9 +16,10 @@ public class RoundTimer : MonoBehaviour {
 	void Update () {
         if (timer > 0) {
             timer -= Time.deltaTime;
-            timerText.text = timer.ToString("f0");
+            timerText.text = "time left " + timer.ToString("f0");
         }
         if (timer <= 0) {
+            timesupScreen.SetActive(true);
             //times up screen.set active
         }
 	}
