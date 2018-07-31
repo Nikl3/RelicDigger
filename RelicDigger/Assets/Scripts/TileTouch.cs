@@ -7,6 +7,7 @@ public class TileTouch : MonoBehaviour {
     Vector2 touchStart;
     int layerMask;
     public float fingerSize;
+    public string brushAudio;
 
     void Start() {
         layerMask = LayerMask.GetMask("Tile");
@@ -20,6 +21,7 @@ public class TileTouch : MonoBehaviour {
             Touch touchZero = Input.GetTouch(0);
 
             if (touchZero.phase == TouchPhase.Moved){
+                Fabric.EventManager.Instance.PostEvent(brushAudio);
                 Vector2 hitSpot = Camera.main.ScreenToWorldPoint((Vector2)touchZero.position);
                 Collisions(hitSpot);
             }
