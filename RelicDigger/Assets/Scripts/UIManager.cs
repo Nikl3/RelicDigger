@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void TapContinue() {
-        if (Input.touchCount > 0) {
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount > 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
