@@ -1475,7 +1475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fingerSize: 0.5
-  brushAudio: sweep
+  brushAudio: brush
 --- !u!1 &1726978293
 GameObject:
   m_ObjectHideFlags: 0

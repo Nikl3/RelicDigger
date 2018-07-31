@@ -18,10 +18,14 @@ public class TileTouch : MonoBehaviour {
 
         if (Input.touchCount == 1){
 
+            
             Touch touchZero = Input.GetTouch(0);
-
-            if (touchZero.phase == TouchPhase.Moved){
+            if (touchZero.phase == TouchPhase.Began){
                 Fabric.EventManager.Instance.PostEvent(brushAudio);
+            }
+
+
+            if (touchZero.phase == TouchPhase.Moved){   
                 Vector2 hitSpot = Camera.main.ScreenToWorldPoint((Vector2)touchZero.position);
                 Collisions(hitSpot);
             }
