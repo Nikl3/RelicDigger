@@ -7,7 +7,8 @@ public class TileTouch : MonoBehaviour {
     Vector2 touchStart;
     Vector2 prevPos;
     Vector2 currentPos;
-
+    public Gamemanager gm;
+    public float eConsPerDig = -0.1f;
     int layerMask;
     public float fingerSize;
     public string airLoopAudio;
@@ -38,7 +39,7 @@ public class TileTouch : MonoBehaviour {
                 //jos kosketusdelta isompi kuin sormi, niin piirrä sormenlevyinen overlap boxi niiden väliin
                 
                 Vector2 hitSpot = Camera.main.ScreenToWorldPoint((Vector2)touchZero.position);
-                Collisions(hitSpot);
+                Swipe(hitSpot);
                 if ((hitSpot - prevPos).magnitude > fingerSize){
                     FastSwipe(prevPos, hitSpot);
                 }
@@ -52,13 +53,14 @@ public class TileTouch : MonoBehaviour {
         }
     }
 
-    void Collisions(Vector2 spot) {
+    void Swipe(Vector2 spot) {
 
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(spot, fingerSize, layerMask);
         int i = 0;
         while (i < hitColliders.Length){
             hitColliders[i].gameObject.SetActive(false);
             i++;
+            gm.EnergyEvent(eConsPerDig);
         }
     }
 
@@ -70,6 +72,8 @@ public class TileTouch : MonoBehaviour {
         {
             hitColliders[i].gameObject.SetActive(false);
             i++;
+            
+            gm.EnergyEvent(eConsPerDig);
         }
     }
 

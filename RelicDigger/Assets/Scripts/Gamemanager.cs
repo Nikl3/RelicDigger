@@ -8,7 +8,7 @@ public class Gamemanager : MonoBehaviour {
 
 
     public float score;
-
+    public float energy = 100;
     public Vector2 tileSize;
     public int tileRows;
     public int tileColumns;
@@ -19,7 +19,11 @@ public class Gamemanager : MonoBehaviour {
     public string boneAudio;
     public GameObject tileFolder;
     public TextMeshProUGUI scoreText;
-
+    public TextMeshProUGUI energyText;
+    public GameObject timesupScreen;
+    public string stopAudio;
+    public string failAudio;
+    public bool gameOver;
     LayerMask background;
     RoundTimer rt;
     public Transform bonePos;
@@ -94,13 +98,7 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-    float GoodRandom(float min, float max) {
-        float average = (min + max) / 2;
-        float halfDistance = (max - min) / 2;
-        float rng = 1 - Mathf.Pow(Random.value, 2f);
-        return average + (Random.value < 0.5f ? -1 : 1) * rng * halfDistance;
 
-    }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount > 0)
@@ -109,7 +107,7 @@ public class Gamemanager : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, background))
             {
-                if (rt.timer > 0)
+                if (energy > 0)
                 {
                     Fabric.EventManager.Instance.PostEvent(boneAudio);
                     totalScore += boneClickScore;
@@ -126,5 +124,40 @@ public class Gamemanager : MonoBehaviour {
             }
         }
 
+
+
+        if (energy > 0)
+        {
+            energy -= Time.deltaTime;
+            energyText.text = "energy " + energy.ToString("f0") + "%";
+        }
+        if (energy <= 0)
+        {
+            if (!gameOver)
+            {
+                Fabric.EventManager.Instance.PostEvent(stopAudio);
+                Fabric.EventManager.Instance.PostEvent(failAudio);
+                gameOver = true;
+            }
+            timesupScreen.SetActive(true);
+            //times up screen.set active
+        }
+
     }
+
+    public void EnergyEvent(float energyInfo)
+    {
+        energy += energyInfo;
+    }
+
+    float GoodRandom(float min, float max)
+    {
+        float average = (min + max) / 2;
+        float halfDistance = (max - min) / 2;
+        float rng = 1 - Mathf.Pow(Random.value, 2f);
+        return average + (Random.value < 0.5f ? -1 : 1) * rng * halfDistance;
+
+    }
+
+
 }
