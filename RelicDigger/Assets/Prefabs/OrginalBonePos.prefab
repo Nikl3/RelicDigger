@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4360157740050462}
   - component: {fileID: 212803200101945608}
-  - component: {fileID: 95216235748760564}
+  - component: {fileID: 95011442594193000}
   m_Layer: 0
   m_Name: tyrannosaurus_skeleton
   m_TagString: Untagged
@@ -346,7 +346,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6969085, y: 0.4544657, z: 0}
   m_Center: {x: 0.02644658, y: 0.045136184, z: 0.10000005}
---- !u!95 &95216235748760564
+--- !u!95 &95011442594193000
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
