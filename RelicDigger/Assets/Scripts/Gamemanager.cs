@@ -17,7 +17,7 @@ public class Gamemanager : MonoBehaviour {
     float totalScore;
     public string bgmAudio;
     public string boneAudio;
-
+    public GameObject tileFolder;
     public TextMeshProUGUI scoreText;
 
     LayerMask background;
@@ -67,7 +67,8 @@ public class Gamemanager : MonoBehaviour {
                 //{
                 //    newPos.z = 0.15f;
                 //}
-                    sandTile.transform.position = newPos;
+                sandTile.transform.position = newPos;
+                sandTile.transform.parent = tileFolder.transform;
             }
         }
 
@@ -118,6 +119,7 @@ public class Gamemanager : MonoBehaviour {
                     hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 1, 0);
                     GameObject go = hit.collider.gameObject;
                     go.GetComponent<BoxCollider>().enabled = false;
+                    go.GetComponent<SpriteRenderer>().sortingOrder = 5;
 
                     //Destroy(hit.collider.gameObject);
                 }
