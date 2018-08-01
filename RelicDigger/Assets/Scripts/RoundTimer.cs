@@ -8,6 +8,9 @@ public class RoundTimer : MonoBehaviour {
     public float timer;
     TextMeshProUGUI timerText;
     public GameObject timesupScreen;
+    public string stopAudio;
+    public string failAudio;
+    public bool gameOver;
 
 	void Start () {
         timerText = GetComponent<TextMeshProUGUI>();
@@ -19,7 +22,12 @@ public class RoundTimer : MonoBehaviour {
             timerText.text = "time left " + timer.ToString("f0");
         }
         if (timer <= 0) {
-            timesupScreen.SetActive(true);
+            if (!gameOver) {
+                Fabric.EventManager.Instance.PostEvent(stopAudio);
+                Fabric.EventManager.Instance.PostEvent(failAudio);
+                gameOver = true;
+            }
+                timesupScreen.SetActive(true);
             //times up screen.set active
         }
 	}
