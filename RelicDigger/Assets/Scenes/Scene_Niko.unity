@@ -1303,7 +1303,12 @@ Prefab:
     - target: {fileID: 114368054956877366, guid: 971332875f950d844bc6531638e88c08,
         type: 2}
       propertyPath: bgmAudio
-      value: diggin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114368054956877366, guid: 971332875f950d844bc6531638e88c08,
+        type: 2}
+      propertyPath: boneAudio
+      value: bone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 971332875f950d844bc6531638e88c08, type: 2}
@@ -1872,6 +1877,21 @@ Prefab:
       propertyPath: pauseimage
       value: 
       objectReference: {fileID: 807032332}
+    - target: {fileID: 114244312908680834, guid: b117922d8798f3740800fbe631ba8502,
+        type: 2}
+      propertyPath: stopAudio
+      value: stop
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244312908680834, guid: b117922d8798f3740800fbe631ba8502,
+        type: 2}
+      propertyPath: gameAudio
+      value: diggin
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244312908680834, guid: b117922d8798f3740800fbe631ba8502,
+        type: 2}
+      propertyPath: pauseAudio
+      value: pause
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b117922d8798f3740800fbe631ba8502, type: 2}
   m_IsPrefabAsset: 0

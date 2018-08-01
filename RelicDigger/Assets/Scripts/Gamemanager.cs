@@ -33,7 +33,6 @@ public class Gamemanager : MonoBehaviour {
         scoreText.text = "score " + totalScore;
     }
 
-    void 
 
     void Start()
     {
