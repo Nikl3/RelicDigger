@@ -17,7 +17,7 @@ public class Gamemanager : MonoBehaviour {
     float totalScore;
     public string bgmAudio;
     public string boneAudio;
-        
+
     public TextMeshProUGUI scoreText;
 
     LayerMask background;
@@ -28,14 +28,29 @@ public class Gamemanager : MonoBehaviour {
     Dictionary<GameObject, Vector3> originalPos;
     public GameObject paleSkeleton;
     public float SkeletonTimer;
+    Animator skeletonAnimator;
+    public string showSkeleton;
 
     void UpdateTotalScore() {
-        scoreText.text = "score " + totalScore;
+        scoreText.text = "Score " + totalScore;
+    }
+
+    void ShowSkeleton() {
+        //paleSkeleton.SetActive(true);
+        //if (SkeletonTimer < 0) {
+        //}
+
+        skeletonAnimator.Play("boneGlow");
+        //print("skeleton näkyi");
     }
 
 
-    void Start()
-    {
+
+
+
+
+
+    void Start() {
         Fabric.EventManager.Instance.PostEvent(bgmAudio);
         float firstX = (tileColumns / -2f + 0.5f) * tileSize.x;
         float firstY = (tileRows / -2f + 0.5f) * tileSize.y;
@@ -44,11 +59,8 @@ public class Gamemanager : MonoBehaviour {
         {
             for (int j = 0; j < tileRows; j++)
             {
-
-
-
                 var prefab = tilePrefab[Random.Range(0, tilePrefab.Count)];
-                Vector3 newPos = new Vector3(firstX + i * tileSize.x, firstY + j * tileSize.y, Random.Range(0.2f,0.5f));
+                Vector3 newPos = new Vector3(firstX + i * tileSize.x, firstY + j * tileSize.y,0 /*Random.Range(-0.2f,-0.4f)*/);
                 GameObject sandTile = Instantiate(prefab);
 
                 //if (prefab == tilePrefab[tilePrefab.Count])
@@ -56,10 +68,6 @@ public class Gamemanager : MonoBehaviour {
                 //    newPos.z = 0.15f;
                 //}
                     sandTile.transform.position = newPos;
-          
-
-
-                
             }
         }
 
@@ -68,6 +76,7 @@ public class Gamemanager : MonoBehaviour {
         rt = FindObjectOfType<RoundTimer>();
         OrginalPos = new Vector3[bones.Length];
         originalPos = new Dictionary<GameObject, Vector3>();
+        skeletonAnimator = FindObjectOfType<Animator>();
 
         // same as below
         //for (int i=0; i < bones.Length; i++) {
@@ -80,14 +89,8 @@ public class Gamemanager : MonoBehaviour {
         foreach (GameObject bone in bones)
         {
             originalPos.Add(bone, bone.transform.position);
-            bone.transform.position = new Vector3(GoodRandom(-4, 6), 0.12f, GoodRandom(-6, 7));
-
+            bone.transform.position = new Vector3(GoodRandom(-4, 6), GoodRandom(-6, 7), 0);
         }
-
-
-
-
-
     }
 
     float GoodRandom(float min, float max) {
@@ -110,7 +113,7 @@ public class Gamemanager : MonoBehaviour {
                     Fabric.EventManager.Instance.PostEvent(boneAudio);
                     totalScore += boneClickScore;
                     UpdateTotalScore();
-                    paleSkeleton.SetActive(true);
+                    ShowSkeleton();
                     //hit.collider.transform.position = bonePos.position;
                     hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 1, 0);
                     GameObject go = hit.collider.gameObject;
@@ -122,5 +125,4 @@ public class Gamemanager : MonoBehaviour {
         }
 
     }
-    
 }
