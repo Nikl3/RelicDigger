@@ -9,11 +9,14 @@ public class UIManager : MonoBehaviour {
     public string stopAudio;
     public string gameAudio;
     public string pauseAudio;
+    public string negativeAudio;
+    public string positiveAudio;
 
     public GameObject pauseimage;
 
 	public void PauseActivated() {
         Fabric.EventManager.Instance.PostEvent(stopAudio);
+        Fabric.EventManager.Instance.PostEvent(positiveAudio);
         Fabric.EventManager.Instance.PostEvent(pauseAudio);
         pauseimage.SetActive(true);
         Time.timeScale = 0f;
@@ -21,6 +24,7 @@ public class UIManager : MonoBehaviour {
 
     public void PauseDeactivated() {
         Fabric.EventManager.Instance.PostEvent(stopAudio);
+        Fabric.EventManager.Instance.PostEvent(negativeAudio);
         Fabric.EventManager.Instance.PostEvent(gameAudio);
         pauseimage.SetActive(false);
         Time.timeScale = 1f;
