@@ -6,71 +6,49 @@ using UnityEngine.UI;
 
 public class Gamemanager : MonoBehaviour {
 
-
+    float totalScore;
     public float score;
+    public float boneClickScore = 500f;
     public float energy = 100;
+
+    public List<GameObject> tilePrefab;
+    public GameObject tileFolder;
     public Vector2 tileSize;
     public int tileRows;
     public int tileColumns;
-    public List<GameObject> tilePrefab;
-    public float boneClickScore = 500f;
-    float totalScore;
+
     public string bgmAudio;
     public string boneAudio;
-    public GameObject tileFolder;
+    public string stopAudio;
+    public string failAudio;
+
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
     public GameObject timesupScreen;
-    public string stopAudio;
-    public string failAudio;
-    public bool gameOver;
-    LayerMask background;
-    RoundTimer rt;
+
+    public float SkeletonTimer;
+    public string showSkeleton;
+    public GameObject paleSkeleton;
     public Transform bonePos;
     public GameObject[] bones;
     Vector3[] OrginalPos;
     Dictionary<GameObject, Vector3> originalPos;
-    public GameObject paleSkeleton;
-    public float SkeletonTimer;
     Animator skeletonAnimator;
-    public string showSkeleton;
 
-    void UpdateTotalScore() {
-        scoreText.text = "Score " + totalScore;
-    }
+    public bool gameOver;
+    LayerMask background;
 
-    void ShowSkeleton() {
-        //paleSkeleton.SetActive(true);
-        //if (SkeletonTimer < 0) {
-        //}
-
-        skeletonAnimator.Play("boneGlow");
-        //print("skeleton näkyi");
-    }
-
-
-
-
-
-
-
-    void Start() {
+    void Start(){
         Fabric.EventManager.Instance.PostEvent(bgmAudio);
         float firstX = (tileColumns / -2f + 0.5f) * tileSize.x;
         float firstY = (tileRows / -2f + 0.5f) * tileSize.y;
 
-        for (int i = 0; i < tileColumns; i++)
-        {
-            for (int j = 0; j < tileRows; j++)
-            {
+        for (int i = 0; i < tileColumns; i++){
+            for (int j = 0; j < tileRows; j++){
+
                 var prefab = tilePrefab[Random.Range(0, tilePrefab.Count)];
                 Vector3 newPos = new Vector3(firstX + i * tileSize.x, firstY + j * tileSize.y,0 /*Random.Range(-0.2f,-0.4f)*/);
                 GameObject sandTile = Instantiate(prefab);
-
-                //if (prefab == tilePrefab[tilePrefab.Count])
-                //{
-                //    newPos.z = 0.15f;
-                //}
                 sandTile.transform.position = newPos;
                 sandTile.transform.parent = tileFolder.transform;
             }
@@ -78,7 +56,6 @@ public class Gamemanager : MonoBehaviour {
 
         background = LayerMask.GetMask("background");
         bones = GameObject.FindGameObjectsWithTag("bone");
-        rt = FindObjectOfType<RoundTimer>();
         OrginalPos = new Vector3[bones.Length];
         originalPos = new Dictionary<GameObject, Vector3>();
         skeletonAnimator = FindObjectOfType<Animator>();
@@ -98,10 +75,8 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
-
-
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount > 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/)
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -118,21 +93,16 @@ public class Gamemanager : MonoBehaviour {
                     GameObject go = hit.collider.gameObject;
                     go.GetComponent<BoxCollider>().enabled = false;
                     go.GetComponent<SpriteRenderer>().sortingOrder = 5;
-
                     //Destroy(hit.collider.gameObject);
                 }
             }
         }
 
-
-
-        if (energy > 0)
-        {
+        if (energy > 0){
             energy -= Time.deltaTime;
             energyText.text = "energy " + energy.ToString("f0") + "%";
         }
-        if (energy <= 0)
-        {
+        if (energy <= 0){
             if (!gameOver)
             {
                 Fabric.EventManager.Instance.PostEvent(stopAudio);
@@ -145,13 +115,16 @@ public class Gamemanager : MonoBehaviour {
 
     }
 
-    public void EnergyEvent(float energyInfo)
-    {
+    public void EnergyEvent(float energyInfo){
+        
         energy += energyInfo;
+
+        if (energy > 100){
+            energy = 100;
+        }
     }
 
-    float GoodRandom(float min, float max)
-    {
+    float GoodRandom(float min, float max){
         float average = (min + max) / 2;
         float halfDistance = (max - min) / 2;
         float rng = 1 - Mathf.Pow(Random.value, 2f);
@@ -159,5 +132,17 @@ public class Gamemanager : MonoBehaviour {
 
     }
 
+    void UpdateTotalScore(){
+        scoreText.text = "Score " + totalScore;
+    }
+
+    void ShowSkeleton(){
+        //paleSkeleton.SetActive(true);
+        //if (SkeletonTimer < 0) {
+        //}
+
+        skeletonAnimator.Play("boneGlow");
+        //print("skeleton näkyi");
+    }
 
 }
