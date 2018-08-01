@@ -10,7 +10,8 @@ public class TileTouch : MonoBehaviour {
 
     int layerMask;
     public float fingerSize;
-    public string brushAudio;
+    public string airLoopAudio;
+    public string stopLoopAudio;
 
     void Start() {
         layerMask = LayerMask.GetMask("Tile");
@@ -32,7 +33,7 @@ public class TileTouch : MonoBehaviour {
             if (touchZero.phase == TouchPhase.Moved){
 
 
-                Fabric.EventManager.Instance.PostEvent(brushAudio);
+                Fabric.EventManager.Instance.PostEvent(airLoopAudio);
 
                 //jos kosketusdelta isompi kuin sormi, niin piirrä sormenlevyinen overlap boxi niiden väliin
                 
@@ -43,7 +44,11 @@ public class TileTouch : MonoBehaviour {
                 }
 
                 prevPos = Camera.main.ScreenToWorldPoint((Vector2)touchZero.position);
-            }          
+            }
+            if (touchZero.phase == TouchPhase.Ended)
+            {
+                Fabric.EventManager.Instance.PostEvent(stopLoopAudio);
+            }
         }
     }
 
