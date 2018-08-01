@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void RetryLevel() {
+        Fabric.EventManager.Instance.PostEvent(stopAudio);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
