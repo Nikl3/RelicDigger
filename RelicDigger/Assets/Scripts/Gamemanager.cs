@@ -60,7 +60,7 @@ public class Gamemanager : MonoBehaviour {
             for (int j = 0; j < tileRows; j++)
             {
                 var prefab = tilePrefab[Random.Range(0, tilePrefab.Count)];
-                Vector3 newPos = new Vector3(firstX + i * tileSize.x, firstY + j * tileSize.y, Random.Range(0.2f,0.5f));
+                Vector3 newPos = new Vector3(firstX + i * tileSize.x, firstY + j * tileSize.y,0 /*Random.Range(-0.2f,-0.4f)*/);
                 GameObject sandTile = Instantiate(prefab);
 
                 //if (prefab == tilePrefab[tilePrefab.Count])
@@ -89,7 +89,7 @@ public class Gamemanager : MonoBehaviour {
         foreach (GameObject bone in bones)
         {
             originalPos.Add(bone, bone.transform.position);
-            bone.transform.position = new Vector3(GoodRandom(-4, 6), 0.12f, GoodRandom(-6, 7));
+            bone.transform.position = new Vector3(GoodRandom(-4, 6), GoodRandom(-6, 7), 0);
         }
     }
 
