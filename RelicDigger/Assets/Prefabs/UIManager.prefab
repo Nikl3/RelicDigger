@@ -38,6 +38,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0b3e3570baa6614cb6388303af90478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stopAudio: stop
+  gameAudio: diggin
+  pauseAudio: pause
   pauseimage: {fileID: 0}
 --- !u!224 &224339044295670374
 RectTransform:

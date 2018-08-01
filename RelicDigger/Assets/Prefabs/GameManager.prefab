@@ -51,5 +51,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2badb2667acac448fb52e923b69deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
+  tileSize: {x: 0, y: 0}
+  tileRows: 0
+  tileColumns: 0
+  tilePrefab: []
   boneClickScore: 500
+  bgmAudio: 
+  boneAudio: bone
   scoreText: {fileID: 0}
+  bonePos: {fileID: 0}
+  bones:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  paleSkeleton: {fileID: 0}
+  SkeletonTimer: 0.5
+  showSkeleton: showSkeleton
