@@ -25,10 +25,14 @@ public class Gamemanager : MonoBehaviour {
     public GameObject[] bones;
     Vector3[] OrginalPos;
     Dictionary<GameObject, Vector3> originalPos;
+    public GameObject paleSkeleton;
+    public float SkeletonTimer;
 
     void UpdateTotalScore() {
         scoreText.text = "score " + totalScore;
     }
+
+    void 
 
     void Start()
     {
@@ -76,12 +80,21 @@ public class Gamemanager : MonoBehaviour {
         foreach (GameObject bone in bones)
         {
             originalPos.Add(bone, bone.transform.position);
-            bone.transform.position = new Vector3(Random.Range(-3, 3), 0, Random.Range(-5, 5));
+            bone.transform.position = new Vector3(GoodRandom(-4, 6), 0.12f, GoodRandom(-6, 7));
+
         }
 
 
 
 
+
+    }
+
+    float GoodRandom(float min, float max) {
+        float average = (min + max) / 2;
+        float halfDistance = (max - min) / 2;
+        float rng = 1 - Mathf.Pow(Random.value, 2f);
+        return average + (Random.value < 0.5f ? -1 : 1) * rng * halfDistance;
 
     }
 
@@ -96,8 +109,11 @@ public class Gamemanager : MonoBehaviour {
                 {
                     totalScore += boneClickScore;
                     UpdateTotalScore();
+                    paleSkeleton.SetActive(true);
                     //hit.collider.transform.position = bonePos.position;
                     hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 1, 0);
+                    GameObject go = hit.collider.gameObject;
+                    go.GetComponent<BoxCollider>().enabled = false;
 
                     //Destroy(hit.collider.gameObject);
                 }
