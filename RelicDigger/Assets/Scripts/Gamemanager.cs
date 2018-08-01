@@ -116,7 +116,7 @@ public class Gamemanager : MonoBehaviour {
                     UpdateTotalScore();
                     ShowSkeleton();
                     //hit.collider.transform.position = bonePos.position;
-                    hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 1, 0);
+                    hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 0, 1);
                     GameObject go = hit.collider.gameObject;
                     go.GetComponent<BoxCollider>().enabled = false;
                     go.GetComponent<SpriteRenderer>().sortingOrder = 5;
