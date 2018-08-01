@@ -20,24 +20,32 @@ public class TileTouch : MonoBehaviour {
 
             
             Touch touchZero = Input.GetTouch(0);
+
             if (touchZero.phase == TouchPhase.Began){
-                Fabric.EventManager.Instance.PostEvent(brushAudio);
+                
             }
 
 
-            if (touchZero.phase == TouchPhase.Moved){   
+            if (touchZero.phase == TouchPhase.Moved){
+                Fabric.EventManager.Instance.PostEvent(brushAudio);
                 Vector2 hitSpot = Camera.main.ScreenToWorldPoint((Vector2)touchZero.position);
                 Collisions(hitSpot);
             }
         }
     }
 
-    void Collisions(Vector2 spot){
+    void Collisions(Vector2 spot) {
 
-        Collider2D hitColliders = Physics2D.OverlapCircle(spot, fingerSize, layerMask);
-
-        hitColliders.gameObject.SetActive(false);  
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(spot, fingerSize, layerMask);
+        int i = 0;
+        while (i < hitColliders.Length){
+            hitColliders[i].gameObject.SetActive(false);
+            i++;
+        }
     }
 }
+
+
+
 
 

@@ -16,7 +16,8 @@ public class Gamemanager : MonoBehaviour {
     public float boneClickScore = 500f;
     float totalScore;
     public string bgmAudio;
-
+    public string boneAudio;
+        
     public TextMeshProUGUI scoreText;
 
     LayerMask background;
@@ -107,6 +108,7 @@ public class Gamemanager : MonoBehaviour {
             {
                 if (rt.timer > 0)
                 {
+                    Fabric.EventManager.Instance.PostEvent(boneAudio);
                     totalScore += boneClickScore;
                     UpdateTotalScore();
                     paleSkeleton.SetActive(true);
