@@ -2139,6 +2139,7 @@ MonoBehaviour:
   timesupScreen: {fileID: 1351383631}
   stopAudio: stop
   failAudio: fail
+  gameOver: 0
 --- !u!114 &1625033948
 MonoBehaviour:
   m_ObjectHideFlags: 0
