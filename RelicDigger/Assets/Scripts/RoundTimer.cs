@@ -19,7 +19,7 @@ public class RoundTimer : MonoBehaviour {
 	void Update () {
         if (timer > 0) {
             timer -= Time.deltaTime;
-            timerText.text = "Energyy " + timer.ToString("f0") + "%";
+            timerText.text = "Energy " + timer.ToString("f0") + "%";
         }
         if (timer <= 0) {
             if (!gameOver) {
