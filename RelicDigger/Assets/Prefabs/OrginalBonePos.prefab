@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224262373996818066}
   - component: {fileID: 212763472183080892}
   - component: {fileID: 65520404440969118}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_neck
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224014371219458706}
   - component: {fileID: 212045399355231610}
   - component: {fileID: 65704730538001432}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_leg
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 224922482602513422}
   - component: {fileID: 212457430052143888}
   - component: {fileID: 65313061089636320}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_tail
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 224181375637697868}
   - component: {fileID: 212022831570199376}
   - component: {fileID: 65065126004563250}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_arm
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 224083228751387372}
   - component: {fileID: 212170513224242696}
   - component: {fileID: 65344257872804414}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_calf
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 224319949078415154}
   - component: {fileID: 212659700481070474}
   - component: {fileID: 65098399498595944}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_pelvis
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 224120218598183668}
   - component: {fileID: 212321240351926804}
   - component: {fileID: 65430826921193524}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_hand
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 224046579834970588}
   - component: {fileID: 212471043360729912}
   - component: {fileID: 65935012831147086}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_skull
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 224709840034788168}
   - component: {fileID: 212635232126944696}
   - component: {fileID: 65287925635269694}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_spine+ribs
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 224044129472661168}
   - component: {fileID: 212021049913515930}
   - component: {fileID: 65555800131768048}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: BonePiece_thigh
   m_TagString: bone
   m_Icon: {fileID: 0}
@@ -1022,7 +1022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.81, y: 0}
+  m_AnchoredPosition: {x: 4.79, y: -9.31}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224319949078415154

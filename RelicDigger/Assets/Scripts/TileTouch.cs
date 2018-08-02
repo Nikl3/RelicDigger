@@ -48,6 +48,8 @@ public class TileTouch : MonoBehaviour {
         }
     }
 
+    //TODO: Siisti Swipet alta
+
     void Swipe(Vector2 spot) {
 
         Collider2D[] hitCollidersTile = Physics2D.OverlapCircleAll(spot, fingerSize, layerMaskTile);
