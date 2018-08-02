@@ -87,12 +87,17 @@ public class Gamemanager : MonoBehaviour {
                     Fabric.EventManager.Instance.PostEvent(boneAudio);
                     totalScore += boneClickScore;
                     UpdateTotalScore();
-                    ShowSkeleton();
-                    //hit.collider.transform.position = bonePos.position;
+                    hit.collider.transform.DetachChildren();
                     hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 0, 1);
+                    hit.collider.transform.SetParent(paleSkeleton.transform, true);
+
+                    // hit.collider.GetComponent<Animator>().enabled = true;
+                    ShowSkeleton();
+
                     GameObject go = hit.collider.gameObject;
                     go.GetComponent<BoxCollider>().enabled = false;
                     go.GetComponent<SpriteRenderer>().sortingOrder = 5;
+
                     //Destroy(hit.collider.gameObject);
                 }
             }
@@ -140,9 +145,10 @@ public class Gamemanager : MonoBehaviour {
         //paleSkeleton.SetActive(true);
         //if (SkeletonTimer < 0) {
         //}
-
         skeletonAnimator.Play("boneGlow");
-        //print("skeleton näkyi");
+        foreach (Animator animator in skeletonAnimator.GetComponentsInChildren<Animator>()) {
+            animator.Play("boneGlow");
+        }
     }
 
 }
