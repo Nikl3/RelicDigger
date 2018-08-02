@@ -24,6 +24,7 @@ public class Gamemanager : MonoBehaviour {
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
+    public TextMeshProUGUI statusText;
     public GameObject timesupScreen;
 
     public float SkeletonTimer;
@@ -79,7 +80,14 @@ public class Gamemanager : MonoBehaviour {
         }
     }
 
+    
+
     void Update() {
+
+        statusText.text = "Moi";
+
+
+
         if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/)
         {
 
