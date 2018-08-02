@@ -10,7 +10,7 @@ public class TileTouch : MonoBehaviour {
     public Gamemanager gm;
     public float eConsPerDig = -0.1f;
     public float eAddedPerItem = 10f;
-    public float fingerSize;
+    public static float fingerSize = 0.5f;
     public string airLoopAudio;
     public string stopLoopAudio;
     int layerMaskTile;

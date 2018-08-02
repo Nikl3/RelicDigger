@@ -57,7 +57,9 @@ public class Gamemanager : MonoBehaviour {
 
         boneLayer = LayerMask.GetMask("Bone");
         tileLayer = LayerMask.GetMask("Tile");
+
         bones = GameObject.FindGameObjectsWithTag("bone");
+
         OrginalPos = new Vector3[bones.Length];
         originalPos = new Dictionary<GameObject, Vector3>();
         skeletonAnimator = FindObjectOfType<Animator>();
@@ -80,25 +82,30 @@ public class Gamemanager : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/)
         {
+
+
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+
             RaycastHit hit;
             
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, boneLayer))
             {
                 if (energy > 0) {
-
-                    RaycastHit hit2;
-                    if (Physics.Raycast(ray, out hit2, Mathf.Infinity, tileLayer))
-                    {
+                    
+                    if (Physics2D.OverlapCircle(new Vector2(ray.origin.x, ray.origin.y), TileTouch.fingerSize, tileLayer)) {
                         print("osui hiekkaan");
                         Fabric.EventManager.Instance.PostEvent(boneAudio);
                         totalScore -= boneClickScore;
+                        UpdateTotalScore();
                         GameObject go = hit.collider.gameObject;
                         go.SetActive(false);
-                    }
+                    } else {
 
-                    else
-                    {
+
                         Fabric.EventManager.Instance.PostEvent(boneAudio);
                         totalScore += boneClickScore;
                         UpdateTotalScore();
@@ -109,8 +116,8 @@ public class Gamemanager : MonoBehaviour {
                         go.GetComponent<BoxCollider>().enabled = false;
                         go.GetComponent<SpriteRenderer>().sortingOrder = 5;
                         //Destroy(hit.collider.gameObject);
-                    }
 
+                    }
                 }
             }
         }
