@@ -36,7 +36,8 @@ public class Gamemanager : MonoBehaviour {
     Animator skeletonAnimator;
 
     public bool gameOver;
-    LayerMask background;
+    LayerMask boneLayer;
+    LayerMask tileLayer;
 
     void Start(){
         Fabric.EventManager.Instance.PostEvent(bgmAudio);
@@ -54,7 +55,8 @@ public class Gamemanager : MonoBehaviour {
             }
         }
 
-        background = LayerMask.GetMask("background");
+        boneLayer = LayerMask.GetMask("Bone");
+        tileLayer = LayerMask.GetMask("Tile");
         bones = GameObject.FindGameObjectsWithTag("bone");
         OrginalPos = new Vector3[bones.Length];
         originalPos = new Dictionary<GameObject, Vector3>();
@@ -79,21 +81,36 @@ public class Gamemanager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/)
         {
             RaycastHit hit;
+            
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, background))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, boneLayer))
             {
-                if (energy > 0)
-                {
-                    Fabric.EventManager.Instance.PostEvent(boneAudio);
-                    totalScore += boneClickScore;
-                    UpdateTotalScore();
-                    ShowSkeleton();
-                    //hit.collider.transform.position = bonePos.position;
-                    hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 0, 1);
-                    GameObject go = hit.collider.gameObject;
-                    go.GetComponent<BoxCollider>().enabled = false;
-                    go.GetComponent<SpriteRenderer>().sortingOrder = 5;
-                    //Destroy(hit.collider.gameObject);
+                if (energy > 0) {
+
+                    RaycastHit hit2;
+                    if (Physics.Raycast(ray, out hit2, Mathf.Infinity, tileLayer))
+                    {
+                        print("osui hiekkaan");
+                        Fabric.EventManager.Instance.PostEvent(boneAudio);
+                        totalScore -= boneClickScore;
+                        GameObject go = hit.collider.gameObject;
+                        go.SetActive(false);
+                    }
+
+                    else
+                    {
+                        Fabric.EventManager.Instance.PostEvent(boneAudio);
+                        totalScore += boneClickScore;
+                        UpdateTotalScore();
+                        ShowSkeleton();
+                        //hit.collider.transform.position = bonePos.position;
+                        hit.collider.transform.position = originalPos[hit.collider.gameObject] + new Vector3(0, 0, 1);
+                        GameObject go = hit.collider.gameObject;
+                        go.GetComponent<BoxCollider>().enabled = false;
+                        go.GetComponent<SpriteRenderer>().sortingOrder = 5;
+                        //Destroy(hit.collider.gameObject);
+                    }
+
                 }
             }
         }
@@ -101,10 +118,8 @@ public class Gamemanager : MonoBehaviour {
         if (energy > 0){
             energy -= Time.deltaTime;
             energyText.text = "energy " + energy.ToString("f0") + "%";
-        }
-        if (energy <= 0){
-            if (!gameOver)
-            {
+        } else{
+            if (!gameOver) {
                 Fabric.EventManager.Instance.PostEvent(stopAudio);
                 Fabric.EventManager.Instance.PostEvent(failAudio);
                 gameOver = true;
