@@ -26,6 +26,7 @@ public class Gamemanager : MonoBehaviour {
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI statusText;
     public GameObject timesupScreen;
+    public GameObject tutorialTable;
 
     public float SkeletonTimer;
     public string showSkeleton;
@@ -35,6 +36,8 @@ public class Gamemanager : MonoBehaviour {
     Vector3[] OrginalPos;
     Dictionary<GameObject, Vector3> originalPos;
     Animator skeletonAnimator;
+    bool tutorialSeen = false;
+    int tutorialTextIndex = 0;
 
     public bool gameOver;
     LayerMask boneLayer;
@@ -84,12 +87,29 @@ public class Gamemanager : MonoBehaviour {
 
     void Update() {
 
-        statusText.text = "Moi";
+        if (!tutorialSeen){
+            if (tutorialTextIndex == 0)
+            {
+                statusText.text = "Hello\n You wannabe Indiana!\n\nYour job is to find some dinosaur bones.";
+                Time.timeScale = 0;
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    tutorialTextIndex = 1;
+                }
+            }
+            else if (tutorialTextIndex == 1)
+            {
+                statusText.text = "But be careful and clear the dust by swiping before picking up the bones or otherwise they will break!\n\nGood Luck!";
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    tutorialSeen = true;
+                    tutorialTable.SetActive(false);
+                    statusText.text = "";
+                    Time.timeScale = 1;
+                }
+            }
 
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/)
-        {
+        } else if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/) {
 
 
 
@@ -104,7 +124,7 @@ public class Gamemanager : MonoBehaviour {
             {
                 if (energy > 0) {
                     
-                    if (Physics2D.OverlapCircle(new Vector2(ray.origin.x, ray.origin.y), TileTouch.fingerSize, tileLayer)) {
+                    if (Physics2D.OverlapPoint(ray.origin, tileLayer)) {
                         print("osui hiekkaan");
                         Fabric.EventManager.Instance.PostEvent(boneAudio);
                         totalScore -= boneClickScore;
@@ -165,7 +185,7 @@ public class Gamemanager : MonoBehaviour {
     }
 
     void UpdateTotalScore(){
-        scoreText.text = "Score " + totalScore;
+        scoreText.text = "score " + totalScore;
     }
 
     void ShowSkeleton(){
