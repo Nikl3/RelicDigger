@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour {
 
 	public void PauseActivated() {
         Fabric.EventManager.Instance.PostEvent(stopAudio);
-        Fabric.EventManager.Instance.PostEvent(positiveAudio);
+        Fabric.EventManager.Instance.PostEvent(negativeAudio);
         Fabric.EventManager.Instance.PostEvent(pauseAudio);
         pauseimage.SetActive(true);
         Time.timeScale = 0f;
@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour {
     public void TapContinue() {
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.touchCount > 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Fabric.EventManager.Instance.PostEvent(stopAudio);
         }
     }
 

@@ -159,6 +159,7 @@ public class Gamemanager : MonoBehaviour {
             } else {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
+                    Fabric.EventManager.Instance.PostEvent(stopAudio);
                     tutorialTable.SetActive(false);
                     statusText.text = "";
                     totalScore = 0;
