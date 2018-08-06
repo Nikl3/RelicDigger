@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Gamemanager : MonoBehaviour {
 
@@ -111,14 +112,8 @@ public class Gamemanager : MonoBehaviour {
 
         } else if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/) {
 
-
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-
-
-            RaycastHit hit;
-            
+            RaycastHit hit;          
             
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, boneLayer))
             {
@@ -160,8 +155,22 @@ public class Gamemanager : MonoBehaviour {
                 Fabric.EventManager.Instance.PostEvent(stopAudio);
                 Fabric.EventManager.Instance.PostEvent(failAudio);
                 gameOver = true;
+                statusText.text = "Game over! Your score was: " + totalScore;
+                tutorialTable.SetActive(true);
+                Time.timeScale = 0;
+
+          
+            } else {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    tutorialTable.SetActive(false);
+                    statusText.text = "";
+                    totalScore = 0;
+                    SceneManager.LoadScene("Scene_Final");
+                    Time.timeScale = 1;
+                }
             }
-            timesupScreen.SetActive(true);
+            //timesupScreen.SetActive(true);
             //times up screen.set active
         }
 
