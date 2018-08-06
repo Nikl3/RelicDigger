@@ -22,12 +22,14 @@ public class Gamemanager : MonoBehaviour {
     public string boneAudio;
     public string stopAudio;
     public string failAudio;
+    public string winAudio;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI statusText;
     public GameObject timesupScreen;
     public GameObject tutorialTable;
+    public GameObject pauseButton;
 
     public float SkeletonTimer;
     public string showSkeleton;
@@ -41,7 +43,8 @@ public class Gamemanager : MonoBehaviour {
     bool tutorialSeen = false;
     int tutorialTextIndex = 0;
 
-    public bool gameOver;
+    public bool gameLost = false;
+    public bool gameOver = false;
     LayerMask boneLayer;
     LayerMask tileLayer;
 
@@ -101,12 +104,14 @@ public class Gamemanager : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
                     tutorialSeen = true;
                     tutorialTable.SetActive(false);
+                    pauseButton.SetActive(true);
                     statusText.text = "";
                     Time.timeScale = 1;
+
                 }
             }
 
-        } else if (Input.GetKeyDown(KeyCode.Mouse0) /*|| Input.touchCount > 0*/) {
+        } else if (Input.GetKeyDown(KeyCode.Mouse0)) {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -121,6 +126,7 @@ public class Gamemanager : MonoBehaviour {
                         totalScore -= boneClickScore;
                         UpdateTotalScore();
                         GameObject go = hit.collider.gameObject;
+                        go.transform.DetachChildren();
                         go.SetActive(false);
                     } else {
 
@@ -143,37 +149,61 @@ public class Gamemanager : MonoBehaviour {
             }
         }
 
-        if (energy > 0) {
+        if (energy <= 0)
+        {
+            gameLost = true;
+        }
+
+            if (energy > 0) {
             energy -= Time.deltaTime;
             energyText.text = "energy " + energy.ToString("f0") + "%";
-        } else {
-            if (!gameOver) {
+            }
+ 
+           if (gameLost && !gameOver)
+            {
                 Fabric.EventManager.Instance.PostEvent(stopAudio);
                 Fabric.EventManager.Instance.PostEvent(failAudio);
                 gameOver = true;
-                statusText.text = "Game over! Your score was: " + totalScore;
+                statusText.text = ("Game over! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
                 tutorialTable.SetActive(true);
+                pauseButton.SetActive(false);
+                Time.timeScale = 0;   
+
+            }
+           
+           if (!gameLost && gameOver) {
+                Fabric.EventManager.Instance.PostEvent(stopAudio);
+                Fabric.EventManager.Instance.PostEvent(winAudio);
+                statusText.text = ("You won! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+                tutorialTable.SetActive(true);
+                pauseButton.SetActive(false);
                 Time.timeScale = 0;
 
-          
-            } else {
+            }
+            if (gameOver)
+            {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     Fabric.EventManager.Instance.PostEvent(stopAudio);
                     tutorialTable.SetActive(false);
                     statusText.text = "";
                     totalScore = 0;
-                    SceneManager.LoadScene("Scene_Final");
+                    SceneManager.LoadScene("Scene_Menu");
                     Time.timeScale = 1;
                 }
             }
             //timesupScreen.SetActive(true);
             //times up screen.set active
+        if (bones.Length == bonesFound.Count)
+        {
+            gameOver = true;
         }
 
     }
 
-    public void EnergyEvent(float energyInfo) {
+
+
+public void EnergyEvent(float energyInfo) {
 
         energy += energyInfo;
 

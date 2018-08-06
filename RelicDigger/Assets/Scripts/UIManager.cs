@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void ToMenu() {
+        Fabric.EventManager.Instance.PostEvent(stopAudio);
         SceneManager.LoadScene(0);
     }
 

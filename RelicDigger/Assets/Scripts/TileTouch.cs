@@ -8,7 +8,7 @@ public class TileTouch : MonoBehaviour {
     Vector2 prevPos;
     Vector2 currentPos;
     public Gamemanager gm;
-    public float eConsPerDig = -0.1f;
+    public float eConsPerDig = -0.08f;
     public float eAddedPerItem = 10f;
     public static float fingerSize = 0.5f;
     public string airLoopAudio;
