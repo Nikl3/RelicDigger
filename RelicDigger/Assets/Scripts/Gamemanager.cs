@@ -44,7 +44,9 @@ public class Gamemanager : MonoBehaviour {
     int tutorialTextIndex = 0;
 
     public bool gameLost = false;
+    public bool gameWon = false;
     public bool gameOver = false;
+    public float waitTimer = 1;
     LayerMask boneLayer;
     LayerMask tileLayer;
 
@@ -92,16 +94,19 @@ public class Gamemanager : MonoBehaviour {
 
     void Update() {
 
+        waitTimer -= Time.fixedUnscaledDeltaTime;
+
         if (!tutorialSeen) {
             if (tutorialTextIndex == 0) {
                 statusText.text = "Hello\n You wannabe Indiana!\n\nYour job is to find some dinosaur bones.";
-                Time.timeScale = 0;
+                Time.timeScale = 0;               
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
                     tutorialTextIndex = 1;
+                    ResetWaitTimer();
                 }
             } else if (tutorialTextIndex == 1) {
                 statusText.text = "But be careful and clear the dust by swiping before picking up the bones or otherwise they will break!\n\nGood Luck!";
-                if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer < 0) {
                     tutorialSeen = true;
                     tutorialTable.SetActive(false);
                     pauseButton.SetActive(true);
@@ -149,55 +154,56 @@ public class Gamemanager : MonoBehaviour {
             }
         }
 
-        if (energy <= 0)
-        {
+
+
+        if (energy > 0) {
+            energy -= Time.deltaTime;
+            energyText.text = "energy " + energy.ToString("f0") + "%";
+        }
+
+        if (energy <= 0) {
             gameLost = true;
         }
 
-            if (energy > 0) {
-            energy -= Time.deltaTime;
-            energyText.text = "energy " + energy.ToString("f0") + "%";
-            }
- 
-           if (gameLost && !gameOver)
-            {
-                Fabric.EventManager.Instance.PostEvent(stopAudio);
-                Fabric.EventManager.Instance.PostEvent(failAudio);
-                gameOver = true;
-                statusText.text = ("Game over! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
-                tutorialTable.SetActive(true);
-                pauseButton.SetActive(false);
-                Time.timeScale = 0;   
-
-            }
-           
-           if (!gameLost && gameOver) {
-                Fabric.EventManager.Instance.PostEvent(stopAudio);
-                Fabric.EventManager.Instance.PostEvent(winAudio);
-                statusText.text = ("You won! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
-                tutorialTable.SetActive(true);
-                pauseButton.SetActive(false);
-                Time.timeScale = 0;
-
-            }
-            if (gameOver)
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    Fabric.EventManager.Instance.PostEvent(stopAudio);
-                    tutorialTable.SetActive(false);
-                    statusText.text = "";
-                    totalScore = 0;
-                    SceneManager.LoadScene("Scene_Menu");
-                    Time.timeScale = 1;
-                }
-            }
-            //timesupScreen.SetActive(true);
-            //times up screen.set active
-        if (bones.Length == bonesFound.Count)
-        {
-            gameOver = true;
+        if (bones.Length == bonesFound.Count) {
+            gameWon = true;
         }
+
+        if (gameLost && !gameOver) {
+            Fabric.EventManager.Instance.PostEvent(stopAudio);
+            Fabric.EventManager.Instance.PostEvent(failAudio);
+            gameOver = true;
+            statusText.text = ("Game over! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+            tutorialTable.SetActive(true);
+            pauseButton.SetActive(false);
+            ResetWaitTimer();
+            Time.timeScale = 0;   
+        }
+           
+        if (gameWon && !gameOver) {
+            Fabric.EventManager.Instance.PostEvent(stopAudio);
+            Fabric.EventManager.Instance.PostEvent(winAudio);
+            statusText.text = ("You won! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+            tutorialTable.SetActive(true);
+            pauseButton.SetActive(false);
+            gameOver = true;
+            ResetWaitTimer();
+            print("Wait timer reset");
+            Time.timeScale = 0;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer < 0 && gameOver) {
+            Fabric.EventManager.Instance.PostEvent(stopAudio);
+            tutorialTable.SetActive(false);
+            statusText.text = "";
+            totalScore = 0;
+            SceneManager.LoadScene("Scene_Menu");
+            Time.timeScale = 1;
+        }
+        
+        //timesupScreen.SetActive(true);
+        //times up screen.set active
+
 
     }
 
@@ -218,6 +224,11 @@ public void EnergyEvent(float energyInfo) {
         float rng = 1 - Mathf.Pow(Random.value, 2f);
         return average + (Random.value < 0.5f ? -1 : 1) * rng * halfDistance;
 
+    }
+
+    void ResetWaitTimer()
+    {
+        waitTimer = 1f;
     }
 
     void UpdateTotalScore() {
