@@ -4068,16 +4068,55 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114208954350271380, guid: 55ead6ec63ab2c840b35a2232ddcf649,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1229121527}
     - target: {fileID: 114445128956442566, guid: 55ead6ec63ab2c840b35a2232ddcf649,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1229121527}
+    - target: {fileID: 114208954350271380, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1229121527}
+    - target: {fileID: 114654705393565222, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114654705393565222, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114907086100396414, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114907086100396414, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114556498107514340, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114556498107514340, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233510630640816, guid: 55ead6ec63ab2c840b35a2232ddcf649, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114143405221078954, guid: 55ead6ec63ab2c840b35a2232ddcf649,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55ead6ec63ab2c840b35a2232ddcf649, type: 2}
   m_IsPrefabAsset: 0
