@@ -116,7 +116,7 @@ public class Gamemanager : MonoBehaviour {
                 }
             }
 
-        } else if (Input.GetKeyDown(KeyCode.Mouse0)) {
+        } else if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer <0) {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
