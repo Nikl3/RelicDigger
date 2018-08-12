@@ -27,6 +27,7 @@ public class Gamemanager : MonoBehaviour {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI statusText;
+    public TextMeshProUGUI counterText;
     public GameObject timesupScreen;
     public GameObject tutorialTable;
     public GameObject pauseButton;
@@ -40,13 +41,14 @@ public class Gamemanager : MonoBehaviour {
     Dictionary<GameObject, Vector3> originalPos;
     public Animator skeletonAnimator;
     public List<GameObject> bonesFound;
-    bool tutorialSeen = false;
+    public bool tutorialSeen = false;
     int tutorialTextIndex = 0;
 
     public bool gameLost = false;
     public bool gameWon = false;
     public bool gameOver = false;
-    public float waitTimer = 1;
+    public float waitTimer = 0.5f;
+    float counterTimer;
     LayerMask boneLayer;
     LayerMask tileLayer;
 
@@ -95,7 +97,7 @@ public class Gamemanager : MonoBehaviour {
     void Update() {
 
         waitTimer -= Time.fixedUnscaledDeltaTime;
-
+        counterTimer -= Time.unscaledDeltaTime;
         if (!tutorialSeen) {
             if (tutorialTextIndex == 0) {
                 statusText.text = "Hello\n You wannabe Indiana!\n\nYour job is to find some dinosaur bones.";
@@ -107,16 +109,32 @@ public class Gamemanager : MonoBehaviour {
             } else if (tutorialTextIndex == 1) {
                 statusText.text = "But be careful and clear the dust by swiping before picking up the bones or otherwise they will break!\n\nGood Luck!";
                 if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer < 0) {
-                    tutorialSeen = true;
+
                     tutorialTable.SetActive(false);
                     pauseButton.SetActive(true);
                     statusText.text = "";
-                    Time.timeScale = 1;
+                    tutorialTextIndex = 2;
+                    counterTimer = 4.49f;
+                }
+            } else if (tutorialTextIndex == 2){
+                if (counterTimer > 3.49f) {
+                    counterText.text = "";
+                } else if (counterTimer > 0.51f) {
+                    counterText.text = counterTimer.ToString("f0");
 
+                } else if (counterTimer > -1f){
+                    counterText.text = "Start Diggin'!";
+
+                } else {                
+                        tutorialSeen = true;
+                        counterText.text = "";
+                        Time.timeScale = 1;
                 }
             }
 
-        } else if (Input.GetKeyDown(KeyCode.Mouse0)) {
+
+
+        } else if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer <0) {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
