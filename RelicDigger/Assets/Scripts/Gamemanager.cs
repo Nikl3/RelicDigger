@@ -115,6 +115,7 @@ public class Gamemanager : MonoBehaviour {
                     statusText.text = "";
                     tutorialTextIndex = 2;
                     counterTimer = 4.49f;
+                    waitTimer = 5f;
                 }
             } else if (tutorialTextIndex == 2){
                 if (counterTimer > 3.49f) {
