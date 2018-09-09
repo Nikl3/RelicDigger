@@ -17,17 +17,20 @@ public class Gamemanager : MonoBehaviour {
     public Vector2 tileSize;
     public int tileRows;
     public int tileColumns;
+    public int boneUpdate = 0;
 
     public string bgmAudio;
     public string boneAudio;
     public string stopAudio;
     public string failAudio;
     public string winAudio;
+    public string destroyAudio;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI statusText;
     public TextMeshProUGUI counterText;
+    public TextMeshProUGUI boneText;
     public GameObject timesupScreen;
     public GameObject tutorialTable;
     public GameObject pauseButton;
@@ -115,7 +118,7 @@ public class Gamemanager : MonoBehaviour {
                     statusText.text = "";
                     tutorialTextIndex = 2;
                     counterTimer = 4.49f;
-                    waitTimer = 5f;
+                    waitTimer = 0.5f;
                 }
             } else if (tutorialTextIndex == 2){
                 if (counterTimer > 3.49f) {
@@ -146,12 +149,13 @@ public class Gamemanager : MonoBehaviour {
 
                     if (Physics2D.OverlapPoint(ray.origin, tileLayer)) {
                         print("osui hiekkaan");
-                        Fabric.EventManager.Instance.PostEvent(boneAudio);
+                        Fabric.EventManager.Instance.PostEvent(destroyAudio);
                         totalScore -= boneClickScore;
                         UpdateTotalScore();
                         GameObject go = hit.collider.gameObject;
                         go.transform.DetachChildren();
                         go.SetActive(false);
+                        boneUpdate++;
                     } else {
 
 
@@ -166,6 +170,7 @@ public class Gamemanager : MonoBehaviour {
                         go.GetComponent<BoxCollider>().enabled = false;
                         go.GetComponent<SpriteRenderer>().sortingOrder = 5;
                         ShowSkeleton();
+                        boneUpdate++;
                         //Destroy(hit.collider.gameObject);
 
                     }
@@ -178,14 +183,18 @@ public class Gamemanager : MonoBehaviour {
         if (energy > 0) {
             energy -= Time.deltaTime;
             energyText.text = "energy " + energy.ToString("f0") + "%";
+            boneText.text = "Bones left:" + (10 - boneUpdate);
         }
 
-        if (energy <= 0) {
-            gameLost = true;
-        }
+        if (boneUpdate == 10 || energy <= 0) {
 
-        if (bones.Length == bonesFound.Count) {
-            gameWon = true;
+            if (energy <= 0) {
+                gameLost = true;
+            }
+
+            if (bones.Length == bonesFound.Count) {
+                gameWon = true;
+            } else gameLost = true;
         }
 
         if (gameLost && !gameOver) {
@@ -247,7 +256,7 @@ public void EnergyEvent(float energyInfo) {
 
     void ResetWaitTimer()
     {
-        waitTimer = 1f;
+        waitTimer = 0.5f;
     }
 
     void UpdateTotalScore() {
