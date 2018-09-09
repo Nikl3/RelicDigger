@@ -25,6 +25,8 @@ public class Gamemanager : MonoBehaviour {
     public string failAudio;
     public string winAudio;
     public string destroyAudio;
+    public string startAudio;
+    public string boopAudio;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI energyText;
@@ -51,7 +53,7 @@ public class Gamemanager : MonoBehaviour {
     public bool gameWon = false;
     public bool gameOver = false;
     public float waitTimer = 0.5f;
-    float counterTimer;
+    public float counterTimer;
     LayerMask boneLayer;
     LayerMask tileLayer;
 
@@ -122,17 +124,18 @@ public class Gamemanager : MonoBehaviour {
                 }
             } else if (tutorialTextIndex == 2){
                 if (counterTimer > 3.49f) {
+                    //Fabric.EventManager.Instance.PostEvent(boopAudio);
                     counterText.text = "";
                 } else if (counterTimer > 0.51f) {
                     counterText.text = counterTimer.ToString("f0");
-
-                } else if (counterTimer > -1f){
+                    Fabric.EventManager.Instance.PostEvent(startAudio);
+                } else if (counterTimer > -1f) {
                     counterText.text = "Start Diggin'!";
 
-                } else {                
-                        tutorialSeen = true;
-                        counterText.text = "";
-                        Time.timeScale = 1;
+                } else {
+                    tutorialSeen = true;
+                    counterText.text = "";
+                    Time.timeScale = 1;
                 }
             }
 
