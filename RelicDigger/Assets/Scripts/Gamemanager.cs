@@ -18,6 +18,7 @@ public class Gamemanager : MonoBehaviour {
     public int tileRows;
     public int tileColumns;
     public int boneUpdate = 0;
+    public int bonesBroken = 0;
 
     public string bgmAudio;
     public string boneAudio;
@@ -123,15 +124,15 @@ public class Gamemanager : MonoBehaviour {
                     waitTimer = 0.5f;
                 }
             } else if (tutorialTextIndex == 2){
-                if (counterTimer > 3.49f) {
+                if (counterTimer >= 3.49f) {
                     //Fabric.EventManager.Instance.PostEvent(boopAudio);
                     counterText.text = "";
-                } else if (counterTimer > 0.51f) {
+                } else if (counterTimer >= 0.51f) {
                     counterText.text = counterTimer.ToString("f0");
+                } else if (counterTimer >= 0f) {
                     Fabric.EventManager.Instance.PostEvent(startAudio);
-                } else if (counterTimer > -1f) {
+                } else if (counterTimer >= -1f) {
                     counterText.text = "Start Diggin'!";
-
                 } else {
                     tutorialSeen = true;
                     counterText.text = "";
@@ -141,7 +142,7 @@ public class Gamemanager : MonoBehaviour {
 
 
 
-        } else if (Input.GetKeyDown(KeyCode.Mouse0) && waitTimer <0) {
+        } else if (Input.GetKeyDown(KeyCode.Mouse0) && counterTimer <= 0) {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -159,6 +160,7 @@ public class Gamemanager : MonoBehaviour {
                         go.transform.DetachChildren();
                         go.SetActive(false);
                         boneUpdate++;
+                        bonesBroken++;
                     } else {
 
 
@@ -186,7 +188,7 @@ public class Gamemanager : MonoBehaviour {
         if (energy > 0) {
             energy -= Time.deltaTime;
             energyText.text = "energy " + energy.ToString("f0") + "%";
-            boneText.text = "Bones left:" + (10 - boneUpdate);
+            boneText.text = "Bones left:" + (10 - boneUpdate) + "\nBroken:" + (bonesBroken);
         }
 
         if (boneUpdate == 10 || energy <= 0) {
@@ -204,17 +206,21 @@ public class Gamemanager : MonoBehaviour {
             Fabric.EventManager.Instance.PostEvent(stopAudio);
             Fabric.EventManager.Instance.PostEvent(failAudio);
             gameOver = true;
-            statusText.text = ("Game over! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+            if (bonesBroken <= 0) {
+                statusText.text = ("Game over!\nYour score was: " + totalScore + "\nand you found\n" + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+            } else {
+                statusText.text = ("Game over!\nYour score was: " + totalScore + "\nand you found\n" + bonesFound.Count + " bones out of " + bones.Length + "\nbut broke " + bonesBroken + "!" + "\n\nTap to continue");
+            }
             tutorialTable.SetActive(true);
             pauseButton.SetActive(false);
             ResetWaitTimer();
-            Time.timeScale = 0;   
+            Time.timeScale = 0;
         }
-           
+
         if (gameWon && !gameOver) {
             Fabric.EventManager.Instance.PostEvent(stopAudio);
             Fabric.EventManager.Instance.PostEvent(winAudio);
-            statusText.text = ("You won! Your score was: " + totalScore + " and you found " + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
+            statusText.text = ("You won!\nYour score was: " + totalScore + "\nand you found\n" + bonesFound.Count + " bones out of " + bones.Length + "!" + "\n\nTap to continue");
             tutorialTable.SetActive(true);
             pauseButton.SetActive(false);
             gameOver = true;
