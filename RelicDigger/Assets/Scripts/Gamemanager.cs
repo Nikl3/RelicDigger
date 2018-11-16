@@ -53,6 +53,7 @@ public class Gamemanager : MonoBehaviour {
     public bool gameLost = false;
     public bool gameWon = false;
     public bool gameOver = false;
+    bool startSoundPlayed = false;
     public float waitTimer = 0.5f;
     public float counterTimer;
     LayerMask boneLayer;
@@ -131,8 +132,11 @@ public class Gamemanager : MonoBehaviour {
                     counterText.text = counterTimer.ToString("f0");
                 } else if (counterTimer >= -1f) {
                     counterText.text = "Start Diggin'!";
+                    if (!startSoundPlayed) {
+                        startSoundPlayed = true;
+                        Fabric.EventManager.Instance.PostEvent(startAudio);
+                    }
                 } else {
-                    Fabric.EventManager.Instance.PostEvent(startAudio);
                     tutorialSeen = true;
                     counterText.text = "";
                     Time.timeScale = 1;
