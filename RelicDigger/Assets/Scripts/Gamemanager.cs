@@ -120,7 +120,7 @@ public class Gamemanager : MonoBehaviour {
                     pauseButton.SetActive(true);
                     statusText.text = "";
                     tutorialTextIndex = 2;
-                    counterTimer = 4.49f;
+                    counterTimer = 3.49f;
                     waitTimer = 0.5f;
                 }
             } else if (tutorialTextIndex == 2){
@@ -129,11 +129,10 @@ public class Gamemanager : MonoBehaviour {
                     counterText.text = "";
                 } else if (counterTimer >= 0.51f) {
                     counterText.text = counterTimer.ToString("f0");
-                } else if (counterTimer >= 0f) {
-                    Fabric.EventManager.Instance.PostEvent(startAudio);
                 } else if (counterTimer >= -1f) {
                     counterText.text = "Start Diggin'!";
                 } else {
+                    Fabric.EventManager.Instance.PostEvent(startAudio);
                     tutorialSeen = true;
                     counterText.text = "";
                     Time.timeScale = 1;

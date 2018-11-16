@@ -23,7 +23,7 @@ public class TileTouch : MonoBehaviour {
 
     void Update() {
 
-        if (Input.touchCount == 1 && gm.waitTimer < 0){
+        if (Input.touchCount == 1 && gm.waitTimer < 0 && gm.tutorialSeen){
             Touch touchZero = Input.GetTouch(0);
 
             if (touchZero.phase == TouchPhase.Began){
